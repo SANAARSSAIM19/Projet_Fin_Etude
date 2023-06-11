@@ -1,38 +1,37 @@
+<?php
 
-
-<?php include '../include/connexion.php'; ?>
+try{
+    $db = new PDO('mysql:host=127.0.0.1;dbname=pfe_absences;charset=utf8','root','7a6EQO');
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+}catch(Exception $e){
+    die('msssssg :: '.$e->getMessage());
+} 
+?>
 <?php
  $message='';
 if(isset($_POST['submit'])){
-    $nom_user = $_POST['nom_user'];
-    $prenom_user = $_POST['prenom_user'];
-    $CIN_USER = $_POST['CIN_USER'];
-    $CNE_ET = $_POST['CNE_ET'];
+    $NOM_USER = $_POST['NOM_USER'];
+    $PRENOM_USER = $_POST['PRENOM_USER'];
     $DATEN_USER = $_POST['DATEN_USER'];
-    $SEXE_USER = $_POST['SEXE_USER'];
+    $CIN_USER = $_POST['CIN_USER'];
     $EMAIL_USER = $_POST['EMAIL_USER'];
     $PASSWORD_USER = $_POST['PASSWORD_USER'];
     $ADRESSE_USER = $_POST['ADRESSE_USER'];
-    $ADRESS_PARENTIELLE_ET = $_POST['ADRESS_PARENTIELLE_ET'];
     $TELE_USER = $_POST['TELE_USER'];
-    $NIVEAU_ET = $_POST['NIVEAU_ET'];
-    $NOM_TUTEUR_ET = $_POST['NOM_TUTEUR_ET'];
-    $PRENOM_TUTEUR_ET = $_POST['PRENOM_TUTEUR_ET'];
-    $req = $db->prepare("insert into etudiant(CNE_ET,NOM_TUTEUR_ET,PRENOM_TUTEUR_ET,ADRESS_PARENTIELLE_ET,NIVEAU_ET,nom_user,DATEN_USER,CIN_USER,EMAIL_USER,prenom_user,PASSWORD_USER,ADRESSE_USER,TELE_USER,SEXE_USER) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-    $req->execute([$CNE_ET,$NOM_TUTEUR_ET,$PRENOM_TUTEUR_ET,$ADRESS_PARENTIELLE_ET,$NIVEAU_ET,$nom_user,$DATEN_USER,$CIN_USER,$EMAIL_USER,$prenom_user,$PASSWORD_USER,$ADRESSE_USER,$TELE_USER,$SEXE_USER]);
-    header('location: ../Etudiant/list.php?msg=added');
-    
-}else{
-if(isset($_POST['submit'])&&($CNE_ET=''||$NOM_TUTEUR_ET=''||$PRENOM_TUTEUR_ET=''||$ADRESS_PARENTIELLE_ET=''|| $NIVEAU_ET=''||$NOM_USER=''
-||$DATEN_USER=''||$CIN_USER=''||$EMAIL_USER=''||$PRENOM_USER=''||$PASSWORD_USER=''|| $ADRESSE_USER=''||$TELE_USER=''||
-$SEXE_USER='')
-){
-  $message='   <div class="alert alert-success" role="alert">
-  tousleschoix
-</div> ';
-}
+    $SEXE_USER = $_POST['SEXE_USER'];
+    $TYPE_EN = $_POST['TYPE_EN'];
+    $ID_ADMIN = $_POST['ID_ADMIN'];
+   
+    if(empty($DATEN_USER) || !strtotime($DATEN_USER)){
+      $message = "La date de naissance est invalide";
+  } else {
+    $req = $db->prepare("insert into enseignant(ID_ADMIN,NOM_USER,PRENOM_USER,DATEN_USER,CIN_USER,EMAIL_USER,PASSWORD_USER,ADRESSE_USER,TELE_USER,SEXE_USER,TYPE_EN) values(?,?,?,?,?,?,?,?,?,?,?)");
+    $req->execute([$ID_ADMIN,$NOM_USER,$PRENOM_USER,$DATEN_USER,$CIN_USER,$EMAIL_USER,$PASSWORD_USER,$ADRESSE_USER,$TELE_USER,$SEXE_USER,$TYPE_EN]);
+    header('location: ../Enseignement/list.php?msg=added');
+exit;
+  }}
 
-}
+
 ?>
 
 
@@ -43,15 +42,17 @@ $SEXE_USER='')
 
 <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Ajouter les Information de L'etudiant</h5>
+              <h5 class="card-title">Ajouter les Information de Enseignement</h5>
 
+
+        
               <!-- No Labels Form -->
               <form class="row g-3"method="post">
                 <div class="col-md-6">
-                  <input type="text" class="form-control" placeholder="Nom" name="nom_user">
+                  <input type="text" class="form-control" placeholder="Nom" name="NOM_USER">
                 </div>
                 <div class="col-md-6">
-                  <input type="text" class="form-control" placeholder="Prenom"name="prenom_user">
+                  <input type="text" class="form-control" placeholder="Prenom"name="PRENOM_USER">
                 </div>
                 <div class="col-md-6">
                   <input type="text" class="form-control" placeholder="CIN"name="CIN_USER">
@@ -93,7 +94,7 @@ $SEXE_USER='')
                
                 
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary"name="submit">Submit</button>
+                  <button type="submit" class="btn btn-primary"name="submit" value="submit">Submit</button>
                   <button type="reset" class="btn btn-secondary">Reset</button>
                 </div>
               </form><!-- End No Labels Form -->

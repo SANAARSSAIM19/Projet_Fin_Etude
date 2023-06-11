@@ -42,10 +42,10 @@
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="d-flex align-items-center justify-content-between"style=" width=250px; height=1000px;">
-      <a href="../index/index.php" class="logo d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="../index/index.php" >
 
-      <img src="http://www.ests.uca.ma/wp-content/uploads/2021/08/ESTS-LOGO-2021-NOUVEAU.png" height="180" width="180">       
+      <img src="http://www.ests.uca.ma/wp-content/uploads/2021/08/ESTS-LOGO-2021-NOUVEAU.png" height="100" width="180">       
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
 

@@ -66,17 +66,22 @@ $NOM_DEPARTEMENT = $_POST['NOM_DEPARTEMENT'];
                                     <th scope="col">Adresse parentielle</th>
                                     <th scope="col">telephone</th>
                                     <th scope="col">Niveau</th>
-                                    <th scope="col">Nom_tuteur</th>
-                                    <th scope="col">Prenom_tuteur</th>
+                                  
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                           
-                    <?php $req =  $db->query("select etudiant.NOM_USER,etudiant.ID_ADMIN,etudiant.PRENOM_USER,etudiant.NOM_TUTEUR_ET,etudiant.PRENOM_TUTEUR_ET,etudiant.DATEN_USER,etudiant.CIN_USER,etudiant.EMAIL_USER,etudiant.PASSWORD_USER,
-                    etudiant.ADRESSE_USER,etudiant.TELE_USER,etudiant.SEXE_USER,etudiant.CNE_ET,etudiant.ADRESS_PARENTIELLE_ET,etudiant.NIVEAU_ET,groupe.ID_GROUPE,departement.ID_DEPARTEMENT,filiere.ID_FILIERE_ from departement join filiere on departement.ID_DEPARTEMENT=filiere.ID_DEPARTEMENT join groupe on
+                    <?php $req =  $db->query("select etudiant.NOM_USER,etudiant.ID_ADMIN,etudiant.PRENOM_USER,
+                    etudiant.DATEN_USER,etudiant.CIN_USER,etudiant.EMAIL_USER,etudiant.PASSWORD_USER,
+                    etudiant.ADRESSE_USER,etudiant.TELE_USER,etudiant.SEXE_USER,etudiant.CNE_ET,
+                    etudiant.ADRESS_PARENTIELLE_ET,etudiant.NIVEAU_ET,
+                    groupe.ID_GROUPE,departement.ID_DEPARTEMENT,filiere.ID_FILIERE_ from departement 
+                    join filiere on departement.ID_DEPARTEMENT=filiere.ID_DEPARTEMENT join groupe on
                     filiere.ID_FILIERE_ = groupe.ID_FILIERE_  join affilier on groupe.ID_GROUPE = affilier.ID_GROUPE
-                    join etudiant on affilier.ID_ADMIN=etudiant.ID_ADMIN where departement.ID_DEPARTEMENT= $NOM_DEPARTEMENT and filiere.ID_FILIERE_= $NOM_FILIERE_ and groupe.ID_GROUPE=$NOM_GROUPE ");
+                    join etudiant on affilier.ID_ADMIN=etudiant.ID_ADMIN where 
+                    departement.ID_DEPARTEMENT= $NOM_DEPARTEMENT and filiere.ID_FILIERE_= $NOM_FILIERE_ 
+                    and groupe.ID_GROUPE=$NOM_GROUPE ");
                     while($data = $req->fetch()):
                      ?>
                
@@ -93,8 +98,7 @@ $NOM_DEPARTEMENT = $_POST['NOM_DEPARTEMENT'];
                                     <td><?= $data['ADRESS_PARENTIELLE_ET'] ?></td>
                                     <td><?= $data['TELE_USER'] ?></td>
                                     <td><?= $data['NIVEAU_ET'] ?></td>
-                                    <td><?= $data['NOM_TUTEUR_ET'] ?></td>
-                                    <td><?= $data['PRENOM_TUTEUR_ET'] ?></td>
+                                   
                                     <td><a class="btn btn-sm btn-success" href="../Etudiant/update.php?id=<?= $data['ID_ADMIN'] ?>"><i class="bi bi-pencil-square"></i></a>
                                     <a class="btn btn-sm btn-danger" href="../Etudiant/delete.php?id=<?= $data['ID_ADMIN'] ?>"><i class="bi bi-trash3"></i></a>
                                 </td>

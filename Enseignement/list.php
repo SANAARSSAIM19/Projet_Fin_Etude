@@ -1,6 +1,5 @@
 
 
-<?php  require_once '../PHPExcel/Classes/PHPExcel.php' ?>
 <?php include '../include/header1.php'; ?>
 
 
@@ -8,8 +7,8 @@
 </div><!-- End Logo -->
 
 <div class="search-bar">
-  <form class="search-form d-flex align-items-center" method="get" action="../Etudiant/search.php">
-    <input type="text" name="search" placeholder="Search" title="Enter search keyword" required value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" 
+  <form class="search-form d-flex align-items-center" method="get" action="../Enseignement/search.php">
+    <input type="text" name="search" placeholder="Search nom" title="Enter search keyword" required value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" 
             class="form-control" 
                      >
     <button type="submit" title="Search"><i class="bi bi-search"></i></button>
@@ -40,83 +39,6 @@
 
 
 
-<?php
-
-              if (isset($_POST['submit'])) {
-    // Vérifiez si un fichier a été téléchargé
-    if (!isset($_FILES['file']['name']) || $_FILES['file']['name'] == '') {
-        echo "Veuillez sélectionner un fichier Excel à importer.";
-        exit();
-    }
-
-    // Vérifiez si le fichier est au format Excel
-    $fileType = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-    if ($fileType != 'xlsx' && $fileType != 'xls') {
-        echo "Veuillez télécharger un fichier Excel valide.";
-        exit();
-    }
-
-    // Définir le chemin d'accès du fichier Excel
-    $file = $_FILES['file']['tmp_name'];
-
-    // Utiliser la bibliothèque PHPExcel pour lire le fichier Excel
-    require_once '../PHPExcel/Classes/PHPExcel.php';
-    $reader = PHPExcel_IOFactory::createReaderForFile($file);
-    $worksheet = $reader->load($file);
-    $rows = $worksheet->getActiveSheet()->toArray();
-
-    // Parcourir les lignes du fichier Excel et insérer les données dans la base de données
-    foreach ($rows as $key => $row) {
-        if ($key == 0) continue; // Ignorer la première ligne qui contient les en-têtes de colonne
-
-        // Définir les variables pour chaque colonne du fichier Excel
-        $NOM_USER = $row[0];
-        $PRENOM_USER = $row[1];
-        $DATEN_USER = $row[2];
-        $CIN_USER = $row[3];
-        $EMAIL_USER = $row[4];
-        $PASSWORD_USER = $row[5];
-        $ADRESSE_USER = $row[6];
-         $TELE_USER = $row[7];
-        $SEXE_USER = $row[8];
-        $ADM_ID_USER = $row[9];
-        $TYPE_EN = $row[10];
-       
-        // Insérer les données dans la base de données
-        $stmt = $db->query("INSERT INTO enseignant (NOM_USER, PRENOM_USER, DATEN_USER, CIN_USER,EMAIL_USER, PASSWORD_USER,TELE_USER,SEXE_USER,ADM_ID_USER,TYPE_EN) VALUES
-         ( :NOM_USER, :PRENOM_USER, :DATEN_USER, :CIN_USER, :EMAIL_USER, :PASSWORD_USER, :TELE_USER, :SEXE_USER, :ADM_ID_USER, :TYPE_EN)");
-        $stmt->bindParam(':NOM_USER',  $NOM_USER);
-        $stmt->bindParam(':PRENOM_USER', $PRENOM_USER);
-        $stmt->bindParam(':DATEN_USER', $DATEN_USER);   
-        $stmt->bindParam(':CIN_USER', $CIN_USER);
-        $stmt->bindParam(':EMAIL_USER', $EMAIL_USER);
-        $stmt->bindParam(':PASSWORD_USER', $PASSWORD_USER);
-        $stmt->bindParam(':TELE_USER', $TELE_USER);
-        $stmt->bindParam(':SEXE_USER', $SEXE_USER);
-        $stmt->bindParam(':ADM_ID_USER', $ADM_ID_USER);
-        $stmt->bindParam(':TYPE_EN', $TYPE_EN);
-
-        $stmt->execute();
-    }
-
-    echo "Les données ont été importées avec succès.";
-}
-?>
-
-<!-- Afficher le formulaire HTML -->
-<form action="" method="POST" enctype="multipart/form-data">
-    <input type="file" name="file">
-    <button type="submit" name="submit">Importer</button>
-</form>
-
-
-
-
-
-
-
-
-</div>
 
 
 <div class="col-md-8 mx-auto">
@@ -182,7 +104,7 @@
                                    
                                     
                                     <td><a class="btn btn-sm btn-success" href="../Enseignement/update.php?id=<?= $data['ID_ADMIN'] ?>"><i class="bi bi-pencil-square"></i></a>
-                                    <a class="btn btn-sm btn-danger" href="../Enseignement/delete.php?id=<?= $data['ID_ADMIN'] ?>"><i class="bi bi-trash3"></i></a>
+                                    <a onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')" class="btn btn-sm btn-danger" href="../Enseignement/delete.php?id=<?= $data['ID_ADMIN'] ?>"><i class="bi bi-trash3"></i></a>
                                 </td>
                                 </tr>
                                 <?php endwhile; ?>

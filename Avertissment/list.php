@@ -1,31 +1,34 @@
-<?php include '../include/connexion.php'; ?>
+
 <?php
+ $db = new PDO('mysql:host=127.0.0.1;dbname=pfe_absences;charset=utf8', 'root', '7a6EQO');
+ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 function guidv4($data = null) {
     // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
-    $data = $data ?? random_bytes(16);
-    assert(strlen($data) == 16);
+    $data = $data ?? random_bytes(32);
+    assert(strlen($data) == 32);
 
     // Set version to 0100
     $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
     // Set bits 6-7 to 10
     $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
-    // Set bits 6-7 to 10
 
     // Output the 36 character UUID.
-    return vsprintf('%s%s%s%s%s%s%s%s', str_split(bin2hex($data), 4));
+    return vsprintf('%s%s%s%s%s%s%s%s%s%s', str_split(bin2hex($data), 5));
 }
 
-$sql = 'select seance.HEURED_SEANCE,seance.HEUREF_SEANCE,etudiant.NB_absence,etudiant.AVERTISEMENT_ET from seance join absence on seance.ID_SEANCE=absence.ID_SEANCE join etudiant on absence.ID_ADMIN=etudiant.ID_ADMIN';
+$sql = 'SELECT seance.HEURED_SEANCE, seance.HEUREF_SEANCE, etudiant.NB_absence, etudiant.AVERTISEMENT_ET FROM seance JOIN absence ON seance.ID_SEANCE = absence.ID_SEANCE JOIN etudiant ON absence.ID_ADMIN = etudiant.ID_ADMIN WHERE AVERTISEMENT_ET = "Avertissement" OR AVERTISEMENT_ET = "Discipline"';
 $rs_insert = $db->prepare($sql);
 $rs_insert->execute();
 $seance = $rs_insert->fetchAll();
-$num_tiket = guidv4();
-$sql = 'select * from etudiant ';
+
+$sql = 'SELECT * FROM etudiant WHERE AVERTISEMENT_ET = "Avertissement" OR AVERTISEMENT_ET = "Discipline"';
 $rs_insert = $db->prepare($sql);
 $rs_insert->execute();
 $etudiant = $rs_insert->fetchAll();
+
 $num_tiket = guidv4();
 ?>
+
 <?php
 
 
@@ -88,32 +91,73 @@ $num_tiket = guidv4();
                                     <th scope="col">CNE</th>
                                     <th scope="col">Nom</th>
                                     <th scope="col">Prenom</th>
+                                    <th scope="col">Nombre Total des heurs</th>
                                     <th scope="col">Avertissment</th>
                                    
                                 </tr>
                             </thead>
                             <tbody>
                             <?php
-                       $req =  $db->query("select * from etudiant");
-                       while($data = $req->fetch()):
-                        if($data['NB_absence']==0){ 
-                            $data['AVERTISEMENT_ET'] ="discipline";
-                         }else{
-                            $data['AVERTISEMENT_ET'] ="aucun"; 
-                         }
-                              ?>
-                                <tr>
-                                 
-                                    <td><?= $data['CNE_ET'] ?></td>
-                                    <td><?= $data['NOM_USER'] ?></td>
-                                    <td><?= $data['PRENOM_USER'] ?></td>
-                                    <td><?= $data['AVERTISEMENT_ET'] ?></td>
-        
-                                </tr>
-                                <?php endwhile; ?>
-                            </tbody>
-                        </table>
-                    </div>
+                     
+try {
+   
+
+     // Récupérer les étudiants avec un nombre d'absences supérieur à 6
+     $sql = "SELECT * FROM etudiant WHERE nb_absence > 6";
+     $stmt = $db->query($sql);
+     $etudiants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+ // Mettre à jour la colonne "avertissement" en fonction du nombre d'absences
+
+ foreach ($etudiants as $etudiant) {
+    $nb_absences = $etudiant['NB_absence'];
+    $avertissement = '';
+
+    if ($nb_absences >= 12) {
+        $avertissement = 'Discipline';
+    } else if (($nb_absences >= 6)&&($nb_absences < 12)) {
+        $avertissement = 'Avertissement';
+    }
+
+    $id_etudiant = $etudiant['ID_ADMIN'];
+    $updateSql = "UPDATE etudiant SET AVERTISEMENT_ET = :AVERTISEMENT_ET WHERE ID_ADMIN = :ID_ADMIN";
+    $updateStmt = $db->prepare($updateSql);
+    $updateStmt->bindParam(':AVERTISEMENT_ET', $avertissement);
+    $updateStmt->bindParam(':ID_ADMIN', $id_etudiant);
+    $updateStmt->execute();
+}
+
+
+    // Récupérer les étudiants avec un nombre d'absences supérieur à 6
+    $sql = "SELECT * FROM etudiant WHERE AVERTISEMENT_ET = 'Avertissement' OR AVERTISEMENT_ET = 'Discipline'";
+    $stmt = $db->query($sql);
+    $etudiants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+    foreach ($etudiants as $etudiant) { 
+                       ?>
+                         <tr>
+                          
+                             <td><?= $etudiant['CNE_ET'] ?></td>
+                             <td><?= $etudiant['NOM_USER'] ?></td>
+                             <td><?= $etudiant['PRENOM_USER'] ?></td>
+                             <td><?= $etudiant['NB_absence'] ?></td>
+                             <td><?= $etudiant['AVERTISEMENT_ET'] ?></td>
+ 
+                         </tr>
+                       
+                         <?php  } ?>
+                     </tbody>
+                 </table>
+             </div>
+             <?php
+    // Afficher les résultats
+   
+} catch (Exception $e) {
+    die('Erreur : ' . $e->getMessage());
+}
+
+
+                    ?>
 
 
  

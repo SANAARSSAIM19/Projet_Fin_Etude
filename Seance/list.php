@@ -72,27 +72,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                           
                             <?php
                        $req =  $db->query("
-                       select seance.HEURED_SEANCE,
-                       seance.HEUREF_SEANCE,
-                       seance.NUM_SALLE,
-                       seance.ID_SEANCE,
-                       seance.SEMAINE_D,
-                       seance.SEMAINE_F,
-                       departement.ID_DEPARTEMENT,
-                       element.NOM_ELEMENT,
-                       enseignant.NOM_USER ,
-                       enseignant.ID_ADMIN ,
-                       enseignant.PRENOM_USER,
-                       groupe.NOM_GROUPE 
-                       from seance
-                       join groupe on seance.ID_GROUPE=groupe.ID_GROUPE
-                       join filiere on groupe.ID_FILIERE_=filiere.ID_FILIERE_
-                       join departement on filiere.ID_DEPARTEMENT = departement.ID_DEPARTEMENT 
-                       join travailler on departement.ID_DEPARTEMENT=travailler.ID_DEPARTEMENT   
-                       join  enseignant on travailler.ID_ADMIN = enseignant.ID_ADMIN
-                       join  element on enseignant.ID_ADMIN=element.ID_ADMIN  ;");
+                       SELECT groupe.NOM_GROUPE, element.NOM_ELEMENT,enseignant.PRENOM_USER, enseignant.NOM_USER,HEURED_SEANCE,HEUREF_SEANCE,NUM_SALLE,SEMAINE_D,SEMAINE_F,ID_SEANCE
+                       FROM seance
+                       JOIN groupe ON seance.ID_GROUPE = groupe.ID_GROUPE
+                       JOIN enseignant ON seance.ID_ADMIN = enseignant.ID_ADMIN
+                       JOIN element ON seance.ID_ELEMENT = element.ID_ELEMENT
+                       
+
+
+                      ;");
                        while($data = $req->fetch()):
                               ?>
 
@@ -111,7 +102,7 @@
                                     <td><a class="btn btn-sm btn-success" href="../Seance/update.php?id=<?= $data['ID_SEANCE'] ?>"><i class="bi bi-pencil-square"></i></a>
                                 </td>
                                 <td>
-                                <a class="btn btn-sm btn-danger" href="../Seance/delete.php?id=<?= $data['ID_SEANCE'] ?>"><i class="bi bi-trash3"></i></a>
+                                <a onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')" class="btn btn-sm btn-danger" href="../Seance/delete.php?id=<?= $data['ID_SEANCE'] ?>"><i class="bi bi-trash3"></i></a>
 
                                 </td>
                                 </tr>

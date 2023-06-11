@@ -36,7 +36,7 @@ if(isset($_POST['submit'])){
     $rs_modif->execute();
     header('location: ../Enseignement/list.php?msg=updated');
     $message='   <div class="alert alert-success" role="alert">
-    produit modifier
+    Enseignement modifier
   </div> ';
 }
 
@@ -54,7 +54,6 @@ if(isset($_GET['id'])){
     $DATEN_USER=$donnees['DATEN_USER'];
     $CIN_USER=$donnees['CIN_USER'];
     $EMAIL_USER=$donnees['EMAIL_USER'];
-   
     $PASSWORD_USER=$donnees['PASSWORD_USER'];
     $ADRESSE_USER=$donnees['ADRESSE_USER'];
     $TELE_USER=$donnees['TELE_USER'];

@@ -94,7 +94,7 @@ if(isset($_GET['id'])){
 <?= $message ;?> 
 <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Modifier les Information de L'Enseignement</h5>
+              <h5 class="card-title">Modifier les Information de Seance</h5>
 
               <!-- No Labels Form -->
               <form class="row g-3"method="post">

@@ -74,6 +74,11 @@ function generate_table_html() {
 			border: solid 1px plack;
 			
 		  }"; scope="col">Prenom</th>
+		  <th style="th{
+			border: solid 1px plack;
+			
+		  }"; scope="col">Nombre des heure </th> 
+
 		 <th style="th{
 			border: solid 1px plack;
 			
@@ -81,7 +86,7 @@ function generate_table_html() {
 	</tr>     
 	 </thead>
 	 <tbody>';
-    $result =$db->query("select * from etudiant");
+    $result =$db->query("SELECT * FROM etudiant WHERE AVERTISEMENT_ET = 'Avertissement' OR AVERTISEMENT_ET = 'Discipline'");
     // Créer un tableau HTML à partir des données
     while ($row = $result->fetch()) {
         $html .= '<tr style="th{
@@ -99,10 +104,14 @@ function generate_table_html() {
         $html .= '<td style="td{
 			border: solid 1px plack;
 			
-		  }";>'.$row['PRENOM_USER'].'</td>';
+		  }";>'.$row['PRENOM_USER'].'</td>'; 
 		$html .= '<td style="td{
 			border: solid 1px plack;
 			
+		}";>'.$row['NB_absence'].'</td>';
+        $html .= '<td style="td{
+			border: solid 1px plack;
+
 		  }";>'.$row['AVERTISEMENT_ET'].'</td>';
         $html .= '</tr>';
     }

@@ -1,6 +1,14 @@
 
 
-<?php include '../include/connexion.php'; ?>
+<?php
+
+try{
+    $db = new PDO('mysql:host=127.0.0.1;dbname=pfe_absences;charset=utf8','root','7a6EQO');
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+}catch(Exception $e){
+    die('msssssg :: '.$e->getMessage());
+} 
+?>
 <?php
  $message='';
 if(isset($_POST['submit'])){
@@ -16,21 +24,18 @@ if(isset($_POST['submit'])){
     $ADRESS_PARENTIELLE_ET = $_POST['ADRESS_PARENTIELLE_ET'];
     $TELE_USER = $_POST['TELE_USER'];
     $NIVEAU_ET = $_POST['NIVEAU_ET'];
-    $NOM_TUTEUR_ET = $_POST['NOM_TUTEUR_ET'];
-    $PRENOM_TUTEUR_ET = $_POST['PRENOM_TUTEUR_ET'];
-    $req = $db->prepare("insert into etudiant(CNE_ET,NOM_TUTEUR_ET,PRENOM_TUTEUR_ET,ADRESS_PARENTIELLE_ET,NIVEAU_ET,nom_user,DATEN_USER,CIN_USER,EMAIL_USER,prenom_user,PASSWORD_USER,ADRESSE_USER,TELE_USER,SEXE_USER) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-    $req->execute([$CNE_ET,$NOM_TUTEUR_ET,$PRENOM_TUTEUR_ET,$ADRESS_PARENTIELLE_ET,$NIVEAU_ET,$nom_user,$DATEN_USER,$CIN_USER,$EMAIL_USER,$prenom_user,$PASSWORD_USER,$ADRESSE_USER,$TELE_USER,$SEXE_USER]);
+    $ID_FILIERE_ = $_POST['ID_FILIERE_'];
+    $ID_ADMIN = $_POST['ID_ADMIN'];
+    $NB_absence=0;
+    $req = $db->prepare("insert into etudiant(ID_ADMIN,ID_FILIERE_,NOM_USER,PRENOM_USER,DATEN_USER,CIN_USER,EMAIL_USER,PASSWORD_USER,ADRESSE_USER,TELE_USER,SEXE_USER,CNE_ET,ADRESS_PARENTIELLE_ET,NIVEAU_ET,NB_absence) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    $req->execute([$ID_ADMIN,$ID_FILIERE_,$nom_user,$prenom_user,$DATEN_USER,$CIN_USER,$EMAIL_USER,$PASSWORD_USER,$ADRESSE_USER,$TELE_USER,$SEXE_USER,$CNE_ET,$ADRESS_PARENTIELLE_ET,$NIVEAU_ET,$NB_absence]);
+   
+
     header('location: ../Etudiant/list.php?msg=added');
+    exit;
     
-}else{
-if(isset($_POST['submit'])&&($CNE_ET=''||$NOM_TUTEUR_ET=''||$PRENOM_TUTEUR_ET=''||$ADRESS_PARENTIELLE_ET=''|| $NIVEAU_ET=''||$NOM_USER=''
-||$DATEN_USER=''||$CIN_USER=''||$EMAIL_USER=''||$PRENOM_USER=''||$PASSWORD_USER=''|| $ADRESSE_USER=''||$TELE_USER=''||
-$SEXE_USER='')
-){
-  $message='   <div class="alert alert-success" role="alert">
-  tousleschoix
-</div> ';
-}
+    
+
 
 }
 ?>
@@ -85,10 +90,10 @@ $SEXE_USER='')
                   <input type="text" class="form-control" placeholder="Adresse Parentielle"name="ADRESS_PARENTIELLE_ET">
                 </div>
                 
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <input type="telephone" class="form-control" placeholder="telephone"name="TELE_USER">
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <select id="inputState" class="form-select"name="NIVEAU_ET">
                     <option selected>Niveau</option>
                     <option>1 Annee  </option>
@@ -96,13 +101,20 @@ $SEXE_USER='')
                     <option>LP  </option>
                   </select>
                 </div>
-                <div class="col-md-6">
-                  <input type="text" class="form-control" placeholder="Nom Tuteur"name="NOM_TUTEUR_ET">
-                </div>
-                <div class="col-md-6">
-                  <input type="text" class="form-control" placeholder="Prenom Teteur"name="PRENOM_TUTEUR_ET">
-                </div>
+                <div class="col-md-4">
                 
+    <select name="ID_FILIERE_" id="ID_FILIERE_"class="form-select"  required>
+    <option value="">filiere</option>
+    <?php
+    $selectFilieres = $db->query("SELECT ID_FILIERE_ , NOM_FILIERE_ FROM  filiere ");
+    // Récupérer les résultats de la requête dans un tableau
+    $filieres = $selectFilieres->fetchAll(PDO::FETCH_ASSOC);
+    foreach($filieres as $filiere): ?>
+
+      <option value="<?php echo $filiere['ID_FILIERE_']; ?>"><?php echo $filiere['NOM_FILIERE_']; ?></option>
+        <?php endforeach; ?>
+    </select>
+    </div>
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary"name="submit">Submit</button>
                   <button type="reset" class="btn btn-secondary">Reset</button>
