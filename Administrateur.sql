@@ -50,10 +50,12 @@ CREATE TABLE IF NOT EXISTS `administrateur` (
   `SERVICE_AD` text,
   `ID_ADMIN` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID_ADMIN`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Dumping data for table pfe_absences.administrateur: ~0 rows (approximately)
 DELETE FROM `administrateur`;
+INSERT INTO `administrateur` (`NOM_USER`, `PRENOM_USER`, `DATEN_USER`, `CIN_USER`, `EMAIL_USER`, `PASSWORD_USER`, `ADRESSE_USER`, `TELE_USER`, `SEXE_USER`, `ADM_ID_USER`, `SERVICE_AD`, `ID_ADMIN`) VALUES
+	('sanaa', NULL, NULL, NULL, NULL, 'sanaa123', NULL, NULL, NULL, NULL, NULL, 1);
 
 -- Dumping structure for table pfe_absences.affilier
 CREATE TABLE IF NOT EXISTS `affilier` (
@@ -65,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `affilier` (
   CONSTRAINT `FK_AFFILIER2` FOREIGN KEY (`ID_ADMIN`) REFERENCES `etudiant` (`ID_ADMIN`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table pfe_absences.affilier: ~19 rows (approximately)
+-- Dumping data for table pfe_absences.affilier: ~0 rows (approximately)
 DELETE FROM `affilier`;
 INSERT INTO `affilier` (`ID_ADMIN`, `ID_GROUPE`) VALUES
 	(1, 5),
@@ -124,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `departement` (
   CONSTRAINT `FK_ETRE_CHEF2` FOREIGN KEY (`ID_ADMIN`) REFERENCES `enseignant` (`ID_ADMIN`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table pfe_absences.departement: ~4 rows (approximately)
+-- Dumping data for table pfe_absences.departement: ~0 rows (approximately)
 DELETE FROM `departement`;
 INSERT INTO `departement` (`ID_DEPARTEMENT`, `ID_ADMIN`, `ENS_ID_ADMIN`, `NOM_DEPARTEMENT`) VALUES
 	(1, 2, 1, 'GI'),
@@ -145,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `element` (
   CONSTRAINT `FK_ENSEIGNER_PAR` FOREIGN KEY (`ID_ADMIN`) REFERENCES `enseignant` (`ID_ADMIN`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table pfe_absences.element: ~6 rows (approximately)
+-- Dumping data for table pfe_absences.element: ~0 rows (approximately)
 DELETE FROM `element`;
 INSERT INTO `element` (`ID_ELEMENT`, `ID_MODULE`, `ID_ADMIN`, `NOM_ELEMENT`) VALUES
 	(4, 2, 12, 'Programation C'),
@@ -171,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `enseignant` (
   PRIMARY KEY (`ID_ADMIN`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table pfe_absences.enseignant: ~12 rows (approximately)
+-- Dumping data for table pfe_absences.enseignant: ~0 rows (approximately)
 DELETE FROM `enseignant`;
 INSERT INTO `enseignant` (`ID_ADMIN`, `NOM_USER`, `PRENOM_USER`, `DATEN_USER`, `CIN_USER`, `EMAIL_USER`, `PASSWORD_USER`, `ADRESSE_USER`, `TELE_USER`, `SEXE_USER`, `TYPE_EN`) VALUES
 	(1, 'ilham', 'monir', '2023-03-31', 'k128776844444444444', 'ilhamounir@gmail.com', '123', '220 P2006, Marrakech 40000', 65086543, 'femme', 'PROF'),
@@ -210,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `etudiant` (
   CONSTRAINT `FK_IDFILI` FOREIGN KEY (`ID_FILIERE_`) REFERENCES `filiere` (`ID_FILIERE_`)
 ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table pfe_absences.etudiant: ~19 rows (approximately)
+-- Dumping data for table pfe_absences.etudiant: ~0 rows (approximately)
 DELETE FROM `etudiant`;
 INSERT INTO `etudiant` (`ID_ADMIN`, `ID_FILIERE_`, `NOM_USER`, `PRENOM_USER`, `DATEN_USER`, `CIN_USER`, `EMAIL_USER`, `PASSWORD_USER`, `ADRESSE_USER`, `TELE_USER`, `SEXE_USER`, `CNE_ET`, `ADRESS_PARENTIELLE_ET`, `NIVEAU_ET`, `AVERTISEMENT_ET`, `NB_absence`) VALUES
 	(1, 1, 'AAROUF', 'Fatima-ezzahra', '0000-00-00', 'H818665', 'fatima.ezzahra@gmail.com', 'motdepasse', 'Adresse 1', 123456789, 'femme', 'K314000', 'Adresse parentielle 1', '2eme Annee', 'Discipline', 12),
@@ -243,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `filiere` (
   CONSTRAINT `FK_COMPRENDRE` FOREIGN KEY (`ID_DEPARTEMENT`) REFERENCES `departement` (`ID_DEPARTEMENT`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table pfe_absences.filiere: ~7 rows (approximately)
+-- Dumping data for table pfe_absences.filiere: ~0 rows (approximately)
 DELETE FROM `filiere`;
 INSERT INTO `filiere` (`ID_FILIERE_`, `ID_DEPARTEMENT`, `NOM_FILIERE_`) VALUES
 	(1, 1, 'ginie_informatique'),
@@ -265,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `groupe` (
   CONSTRAINT `FK_APPARTENIR` FOREIGN KEY (`ID_FILIERE_`) REFERENCES `filiere` (`ID_FILIERE_`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table pfe_absences.groupe: ~7 rows (approximately)
+-- Dumping data for table pfe_absences.groupe: ~0 rows (approximately)
 DELETE FROM `groupe`;
 INSERT INTO `groupe` (`ID_GROUPE`, `ID_FILIERE_`, `NOM_GROUPE`, `TYPE_GROUPE`) VALUES
 	(1, 1, 'group_1_TP', 'TP'),
@@ -275,19 +277,6 @@ INSERT INTO `groupe` (`ID_GROUPE`, `ID_FILIERE_`, `NOM_GROUPE`, `TYPE_GROUPE`) V
 	(5, 1, 'group_cour', 'cour'),
 	(6, 1, 'group_1_TD', 'TD'),
 	(7, 1, 'group_2_TD', 'TD');
-
--- Dumping structure for table pfe_absences.loginad
-CREATE TABLE IF NOT EXISTS `loginad` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user` varchar(255) NOT NULL DEFAULT '0',
-  `pass` varchar(255) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
--- Dumping data for table pfe_absences.loginad: ~1 rows (approximately)
-DELETE FROM `loginad`;
-INSERT INTO `loginad` (`id`, `user`, `pass`) VALUES
-	(3, 'sanaa', '123');
 
 -- Dumping structure for table pfe_absences.module
 CREATE TABLE IF NOT EXISTS `module` (
@@ -302,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `module` (
   CONSTRAINT `FK_TROUVER` FOREIGN KEY (`ID_SEMESTRE`) REFERENCES `semestre` (`ID_SEMESTRE`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table pfe_absences.module: ~7 rows (approximately)
+-- Dumping data for table pfe_absences.module: ~0 rows (approximately)
 DELETE FROM `module`;
 INSERT INTO `module` (`ID_MODULE`, `ID_FILIERE_`, `ID_SEMESTRE`, `NOM_MODULE`) VALUES
 	(1, 1, 1, 'math'),
@@ -343,7 +332,7 @@ CREATE TABLE IF NOT EXISTS `seance` (
   CONSTRAINT `FK_INCLURE` FOREIGN KEY (`ID_ELEMENT`) REFERENCES `element` (`ID_ELEMENT`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table pfe_absences.seance: ~5 rows (approximately)
+-- Dumping data for table pfe_absences.seance: ~0 rows (approximately)
 DELETE FROM `seance`;
 INSERT INTO `seance` (`ID_SEANCE`, `ID_ELEMENT`, `ID_GROUPE`, `ID_ADMIN`, `HEURED_SEANCE`, `HEUREF_SEANCE`, `NUM_SALLE`, `SEMAINE_D`, `SEMAINE_F`) VALUES
 	(24, 6, 5, 13, '00:34:44', '00:34:45', 11, '2023-05-31', '2023-05-31'),
@@ -361,7 +350,7 @@ CREATE TABLE IF NOT EXISTS `semestre` (
   PRIMARY KEY (`ID_SEMESTRE`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table pfe_absences.semestre: ~6 rows (approximately)
+-- Dumping data for table pfe_absences.semestre: ~0 rows (approximately)
 DELETE FROM `semestre`;
 INSERT INTO `semestre` (`ID_SEMESTRE`, `NUM_SEMESTRE`, `DATED_SEMESTRE`, `DATEF_SEMESTRE`) VALUES
 	(1, 1, '2023-03-31', '2025-03-31'),
@@ -381,7 +370,7 @@ CREATE TABLE IF NOT EXISTS `travailler` (
   CONSTRAINT `FK_TRAVAILLER2` FOREIGN KEY (`ID_DEPARTEMENT`) REFERENCES `departement` (`ID_DEPARTEMENT`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table pfe_absences.travailler: ~7 rows (approximately)
+-- Dumping data for table pfe_absences.travailler: ~0 rows (approximately)
 DELETE FROM `travailler`;
 INSERT INTO `travailler` (`ID_ADMIN`, `ID_DEPARTEMENT`) VALUES
 	(3, 1),

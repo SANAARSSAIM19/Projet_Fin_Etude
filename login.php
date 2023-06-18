@@ -3,9 +3,9 @@
 <?php 
 
 if(isset($_POST['submit'])){
-    $User = $_POST['User'];
-    $pass = $_POST['pass'];
-    $req = $db->query("SELECT COUNT(*) FROM loginad  WHERE User='$User' AND pass ='$pass'");
+    $User = $_POST['NOM_USER'];
+    $pass = $_POST['PASSWORD_USER'];
+    $req = $db->query("SELECT COUNT(*) FROM administrateur  WHERE NOM_USER='$User' AND PASSWORD_USER ='$pass'");
     $res = $req-> fetchColumn();
     if($res == 1){
         $_SESSION['User']=$User;
@@ -88,14 +88,14 @@ if(isset($_POST['submit'])){
                       <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="User" class="form-control" id="yourUsername" required>
+                        <input type="text" name="NOM_USER" class="form-control" id="yourUsername" required>
                         <div class="invalid-feedback">Please enter your username.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="pass" class="form-control" id="yourPassword" required>
+                      <input type="password" name="PASSWORD_USER" class="form-control" id="yourPassword" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
