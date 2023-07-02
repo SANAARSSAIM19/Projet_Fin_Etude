@@ -1,9 +1,9 @@
 
 <?php
-$NOM_DEPARTEMENT = $_POST['NOM_DEPARTEMENT'];
-  $NOM_FILIERE_ = $_POST['NOM_FILIERE_'];
-  $NOM_GROUPE = $_POST['NOM_GROUPE'];
-  $NUM_SEMESTRE = $_POST['NUM_SEMESTRE'];?>
+  $ID_FILIERE_ = $_POST['ID_FILIERE_'];
+  $ID_GROUPE = $_POST['Id_Groupe'];
+  $ID_SEMESTRE = $_POST['ID_SEMESTRE'];
+  ?>
 <?php include '../include/header1.php'; ?>
 
 
@@ -72,17 +72,28 @@ $NOM_DEPARTEMENT = $_POST['NOM_DEPARTEMENT'];
                             </thead>
                             <tbody>
                           
-                    <?php $req =  $db->query("select etudiant.NOM_USER,etudiant.ID_ADMIN,etudiant.PRENOM_USER,
-                    etudiant.DATEN_USER,etudiant.CIN_USER,etudiant.EMAIL_USER,etudiant.PASSWORD_USER,
-                    etudiant.ADRESSE_USER,etudiant.TELE_USER,etudiant.SEXE_USER,etudiant.CNE_ET,
-                    etudiant.ADRESS_PARENTIELLE_ET,etudiant.NIVEAU_ET,
-                    groupe.ID_GROUPE,departement.ID_DEPARTEMENT,filiere.ID_FILIERE_ from departement 
-                    join filiere on departement.ID_DEPARTEMENT=filiere.ID_DEPARTEMENT join groupe on
-                    filiere.ID_FILIERE_ = groupe.ID_FILIERE_  join affilier on groupe.ID_GROUPE = affilier.ID_GROUPE
-                    join etudiant on affilier.ID_ADMIN=etudiant.ID_ADMIN where 
-                    departement.ID_DEPARTEMENT= $NOM_DEPARTEMENT and filiere.ID_FILIERE_= $NOM_FILIERE_ 
-                    and groupe.ID_GROUPE=$NOM_GROUPE ");
-                    while($data = $req->fetch()):
+                    <?php $query = "SELECT 
+                    
+                    etudiant.NOM_USER, etudiant.Id_User, etudiant.PRENOM_USER,
+                     etudiant.DATEN_USER, etudiant.CIN_USER, etudiant.EMAIL_USER,
+                      etudiant.PASSWORD_USER, etudiant.ADRESSE_USER, etudiant.TELE_USER,
+                       etudiant.SEXE_USER, etudiant.CNE_ET, etudiant.ADRESS_PARENTIELLE_ET, 
+                       etudiant.NIVEAU_ET, groupe.Id_Groupe,
+                        filiere.ID_FILIERE_,etudiant.ID_FILIERE_,affilier.Id_Groupe
+          FROM groupe join semestre on groupe.ID_SEMESTRE =semestre.ID_SEMESTRE
+          join affilier on groupe.Id_Groupe=affilier.Id_Groupe
+          join etudiant on affilier.Id_User=etudiant.Id_User
+          join filiere on etudiant.ID_FILIERE_=filiere.ID_FILIERE_ 
+          WHERE etudiant.ID_FILIERE_ = :ID_FILIERE_ AND affilier.Id_Groupe = :Id_Groupe AND groupe.ID_SEMESTRE= :ID_SEMESTRE";
+
+
+$stmt = $db->prepare($query);
+$stmt->bindParam(':ID_FILIERE_', $ID_FILIERE_);
+$stmt->bindParam(':Id_Groupe', $ID_GROUPE);
+$stmt->bindParam(':ID_SEMESTRE', $ID_SEMESTRE);
+
+$stmt->execute();
+                    while($data = $stmt->fetch()):
                      ?>
                
                                 <tr>
@@ -99,8 +110,8 @@ $NOM_DEPARTEMENT = $_POST['NOM_DEPARTEMENT'];
                                     <td><?= $data['TELE_USER'] ?></td>
                                     <td><?= $data['NIVEAU_ET'] ?></td>
                                    
-                                    <td><a class="btn btn-sm btn-success" href="../Etudiant/update.php?id=<?= $data['ID_ADMIN'] ?>"><i class="bi bi-pencil-square"></i></a>
-                                    <a class="btn btn-sm btn-danger" href="../Etudiant/delete.php?id=<?= $data['ID_ADMIN'] ?>"><i class="bi bi-trash3"></i></a>
+                                    <td><a class="btn btn-sm btn-success" href="../Etudiant/update.php?id=<?= $data['Id_User'] ?>"><i class="bi bi-pencil-square"></i></a>
+                                    <a class="btn btn-sm btn-danger" href="../Etudiant/delete.php?id=<?= $data['Id_User'] ?>"><i class="bi bi-trash3"></i></a>
                                 </td>
                                 </tr>
                                 <?php endwhile; ?>

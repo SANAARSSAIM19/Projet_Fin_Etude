@@ -64,8 +64,8 @@
                                     <td><?= $data['ADRESS_PARENTIELLE_ET'] ?></td>
                                     <td><?= $data['TELE_USER'] ?></td>
                                     <td><?= $data['NIVEAU_ET'] ?></td>
-                                    <td><a class="btn btn-sm btn-success" href="../Etudiant/update.php?id=<?= $data['ID_ADMIN'] ?>"><i class="bi bi-pencil-square"></i></a>
-                                    <a class="btn btn-sm btn-danger" href="../Etudiant/delete.php?id=<?= $data['ID_ADMIN'] ?>"><i class="bi bi-trash3"></i></a>
+                                    <td><a class="btn btn-sm btn-success" href="../Etudiant/update.php?id=<?= $data['Id_User'] ?>"><i class="bi bi-pencil-square"></i></a>
+                                    <a class="btn btn-sm btn-danger" href="../Etudiant/delete.php?id=<?= $data['Id_User'] ?>"><i class="bi bi-trash3"></i></a>
                                 </td>
             </tr>     
         <?php }  }else {?>

@@ -6,10 +6,10 @@
 
 <?php
 if(isset($_POST['submit'])){
-  $NOM_DEPARTEMENT = $_POST['NOM_DEPARTEMENT'];
-  $NOM_FILIERE_ = $_POST['NOM_FILIERE_'];
-  $NOM_GROUPE = $_POST['NOM_GROUPE'];
-  $NUM_SEMESTRE = $_POST['NUM_SEMESTRE'];
+  
+  $ID_FILIERE_ = $_POST['ID_FILIERE_'];
+  $ID_GROUPE = $_POST['Id_Groupe'];
+  $ID_SEMESTRE = $_POST['ID_SEMESTRE'];
 }
 
    ?>
@@ -17,6 +17,7 @@ if(isset($_POST['submit'])){
 
 
                        
+<?php include '../include/connexion.php'; ?>
 
 <div class="card">
             <div class="card-body">
@@ -27,7 +28,7 @@ if(isset($_POST['submit'])){
 
 
 
-                <select id="listDep" name="NOM_DEPARTEMENT"   class="form-select">
+                <select id="listDep" name="ID_DEPARTEMENT"   class="form-select">
                     <option value="" >Département </option>
                     <option value="1" >GI </option>
                     <option value="2" >TM  </option>
@@ -36,36 +37,32 @@ if(isset($_POST['submit'])){
                   </select>
                 </div>
                 <div class="col-md-12">
-                <select id="listFilier" class="form-select"name="NOM_FILIERE_"  >
+                <select id="listFilier" class="form-select"name="ID_FILIERE_"  >
                     <option selected id="affichage">Filière</option>
                  
                   </select>
                 </div>
                
                 <div class="col-md-12">
-                <select id="listGroup" class="form-select"name="NOM_GROUPE">
+                <select id="" class="form-select"name="Id_Groupe">
                     <option selected>Nom Groupe</option>
-                    <option  value="5">Cour </option>
-                    <option value="6" >TD1  </option>
-                    <option  value="7">TD2  </option>
-                    <option  value="1">TP1  </option>
-                    <option  value="2">TP2  </option>
-                    <option  value="3">TP3  </option>
-                    <option  value="4">TP4  </option>
+                    <option  value="1">section1 </option>
+               
                     
                
                   </select>
                 </div>
                 <div class="col-md-12">
-                <select id="inputState" class="form-select"name="NUM_SEMESTRE">
+                <select id="inputState" class="form-select" name="ID_SEMESTRE">
                     <option selected>Semestre</option>
-                    <option value="1">Semestre 1</option>
-                    <option value="2">Semestre 2</option>
-                    <option value="3">Semestre 3 </option>
-                    <option value="4">Semestre 4</option>
-                    <option value="5">Semestre 5 </option>
-                    <option value="6">Semestre 6</option>
-                  </select>
+                    
+                    <option  value="1254">S1  </option>
+                    <option  value="1255">S2  </option>
+                    
+                    
+</select>
+
+
                 </div>
                 <button type="submit" class="btn btn-outline-primary"name="submit"style="margin-top: 20px; " value="ok">Submit</button>
 

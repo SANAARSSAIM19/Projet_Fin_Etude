@@ -1,0 +1,379 @@
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               8.0.30 - MySQL Community Server - GPL
+-- Server OS:                    Win64
+-- HeidiSQL Version:             12.1.0.6537
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+-- Dumping database structure for pfe_absences
+CREATE DATABASE IF NOT EXISTS `pfe_absences` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `pfe_absences`;
+
+-- Dumping structure for table pfe_absences.absence
+CREATE TABLE IF NOT EXISTS `absence` (
+  `id_absent` int NOT NULL AUTO_INCREMENT,
+  `Id_User` int DEFAULT NULL,
+  `ID_SEANCE` int DEFAULT NULL,
+  `etat` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_absent`),
+  KEY `user_fk` (`Id_User`),
+  KEY `seance-fk` (`ID_SEANCE`),
+  CONSTRAINT `seance-fk` FOREIGN KEY (`ID_SEANCE`) REFERENCES `seance` (`ID_SEANCE`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user_fk` FOREIGN KEY (`Id_User`) REFERENCES `utilisateur` (`Id_User`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.absence: ~6 rows (approximately)
+DELETE FROM `absence`;
+INSERT INTO `absence` (`id_absent`, `Id_User`, `ID_SEANCE`, `etat`) VALUES
+	(6, 2, 4, 'absent'),
+	(7, 6, 4, 'absent');
+
+-- Dumping structure for table pfe_absences.administrateur
+CREATE TABLE IF NOT EXISTS `administrateur` (
+  `Id_User` int NOT NULL AUTO_INCREMENT,
+  `NOM_USER` text,
+  `PRENOM_USER` text,
+  `DATEN_USER` date DEFAULT NULL,
+  `CIN_USER` text,
+  `EMAIL_USER` text,
+  `PASSWORD_USER` text,
+  `ADRESSE_USER` text,
+  `TELE_USER` decimal(10,0) DEFAULT NULL,
+  `SEXE_USER` text,
+  `SERVICE_AD` text,
+  PRIMARY KEY (`Id_User`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.administrateur: ~11 rows (approximately)
+DELETE FROM `administrateur`;
+INSERT INTO `administrateur` (`Id_User`, `NOM_USER`, `PRENOM_USER`, `DATEN_USER`, `CIN_USER`, `EMAIL_USER`, `PASSWORD_USER`, `ADRESSE_USER`, `TELE_USER`, `SEXE_USER`, `SERVICE_AD`) VALUES
+	(1, 'amina', 'aouari', '2015-03-20', 'a1254kj', 'amina@gmail.com', 'aamina', '279 apokj', 636068245, 'femme', 'informatique'),
+	(2, 'aaaaaaadfgh', 'mpoiuy', '2003-01-26', '3lkjhgf', 'akjb@gmail.com', 'aaaa', '124 zertrg', 617134875, 'femme', 'info'),
+	(3, 'akrate', 'mahdi', '2023-04-12', 'hh54567238', 'mahdi@gmail.com', '123456', 'safi', 754321789, 'homme', 'saisir data'),
+	(4, 'akrate', 'khadija', NULL, 'hh65432189', 'khadijaak@gmail.com', '12345', 'rabat', 754329001, 'femme', 'imprimer'),
+	(5, 'akrate', 'maryam', NULL, 'hh65432189', 'maryam@gmail.com', '12345', 'rabat', 754329001, 'femme', 'imprimer'),
+	(6, 'AASLI', 'Ahmed', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]', NULL),
+	(7, 'ABDOU', 'Imane', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]', NULL),
+	(8, 'AFRIADE', 'Wafaa', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]', NULL),
+	(9, 'AIT-HEMAD', 'Wissal', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]', NULL),
+	(10, 'AKRAM', 'Nadia', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]', NULL),
+	(11, 'AKRATE', 'Khadija', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]', NULL);
+
+-- Dumping structure for table pfe_absences.affilier
+CREATE TABLE IF NOT EXISTS `affilier` (
+  `Id_User` int NOT NULL,
+  `ID_GROUPE` int NOT NULL,
+  `TYPE` text,
+  PRIMARY KEY (`Id_User`,`ID_GROUPE`),
+  KEY `FK_AFFILIER` (`ID_GROUPE`),
+  CONSTRAINT `FK_AFFILIER` FOREIGN KEY (`ID_GROUPE`) REFERENCES `groupe` (`ID_GROUPE`),
+  CONSTRAINT `FK_AFFILIER2` FOREIGN KEY (`Id_User`) REFERENCES `etudiant` (`Id_User`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.affilier: ~5 rows (approximately)
+DELETE FROM `affilier`;
+INSERT INTO `affilier` (`Id_User`, `ID_GROUPE`, `TYPE`) VALUES
+	(2, 1, NULL),
+	(4, 1, 'ggbh'),
+	(5, 1, 'lkj'),
+	(6, 1, 'jj'),
+	(7, 1, 'lkjh');
+
+-- Dumping structure for table pfe_absences.annee
+CREATE TABLE IF NOT EXISTS `annee` (
+  `ID_ANNEE` int NOT NULL AUTO_INCREMENT,
+  `ANNEE_UNIVERSITAIRE` date DEFAULT NULL,
+  PRIMARY KEY (`ID_ANNEE`)
+) ENGINE=InnoDB AUTO_INCREMENT=2024 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.annee: ~2 rows (approximately)
+DELETE FROM `annee`;
+INSERT INTO `annee` (`ID_ANNEE`, `ANNEE_UNIVERSITAIRE`) VALUES
+	(2022, '0000-00-00'),
+	(2023, '0000-00-00');
+
+-- Dumping structure for table pfe_absences.avoir
+CREATE TABLE IF NOT EXISTS `avoir` (
+  `Id_User` int NOT NULL,
+  `ID_ROLE` int NOT NULL,
+  PRIMARY KEY (`Id_User`,`ID_ROLE`),
+  KEY `FK_AVOIR2` (`ID_ROLE`),
+  CONSTRAINT `FK_AVOIR` FOREIGN KEY (`Id_User`) REFERENCES `utilisateur` (`Id_User`),
+  CONSTRAINT `FK_AVOIR2` FOREIGN KEY (`ID_ROLE`) REFERENCES `role` (`ID_ROLE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.avoir: ~0 rows (approximately)
+DELETE FROM `avoir`;
+
+-- Dumping structure for table pfe_absences.departement
+CREATE TABLE IF NOT EXISTS `departement` (
+  `ID_DEPARTEMENT` int NOT NULL AUTO_INCREMENT,
+  `Id_User` int NOT NULL,
+  `NOM_DEPARTEMENT` text,
+  PRIMARY KEY (`ID_DEPARTEMENT`),
+  KEY `FK_ETRE_CHEF` (`Id_User`),
+  CONSTRAINT `FK_ETRE_CHEF` FOREIGN KEY (`Id_User`) REFERENCES `enseignant` (`Id_User`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.departement: ~3 rows (approximately)
+DELETE FROM `departement`;
+INSERT INTO `departement` (`ID_DEPARTEMENT`, `Id_User`, `NOM_DEPARTEMENT`) VALUES
+	(1, 1, 'informatique'),
+	(2, 2, 'TM'),
+	(3, 2, 'GIM'),
+	(4, 2, 'TIMQ');
+
+-- Dumping structure for table pfe_absences.element
+CREATE TABLE IF NOT EXISTS `element` (
+  `ID_ELEMENT` int NOT NULL AUTO_INCREMENT,
+  `ID_MODULE` int NOT NULL,
+  `Id_User` int NOT NULL,
+  `NOM_ELEMENT` text,
+  PRIMARY KEY (`ID_ELEMENT`),
+  KEY `FK_COMPORTER` (`ID_MODULE`),
+  KEY `FK_ENSEIGNER_PAR` (`Id_User`),
+  CONSTRAINT `FK_COMPORTER` FOREIGN KEY (`ID_MODULE`) REFERENCES `module` (`ID_MODULE`),
+  CONSTRAINT `FK_ENSEIGNER_PAR` FOREIGN KEY (`Id_User`) REFERENCES `enseignant` (`Id_User`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.element: ~0 rows (approximately)
+DELETE FROM `element`;
+INSERT INTO `element` (`ID_ELEMENT`, `ID_MODULE`, `Id_User`, `NOM_ELEMENT`) VALUES
+	(1, 1, 1, 'C++');
+
+-- Dumping structure for table pfe_absences.enseignant
+CREATE TABLE IF NOT EXISTS `enseignant` (
+  `Id_User` int NOT NULL AUTO_INCREMENT,
+  `Id_Departement` int DEFAULT NULL,
+  `NOM_USER` text,
+  `PRENOM_USER` text,
+  `DATEN_USER` date DEFAULT NULL,
+  `CIN_USER` text,
+  `EMAIL_USER` text,
+  `PASSWORD_USER` text,
+  `ADRESSE_USER` text,
+  `TELE_USER` decimal(10,0) DEFAULT NULL,
+  `SEXE_USER` text,
+  `TYPE_EN` text,
+  PRIMARY KEY (`Id_User`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.enseignant: ~3 rows (approximately)
+DELETE FROM `enseignant`;
+INSERT INTO `enseignant` (`Id_User`, `Id_Departement`, `NOM_USER`, `PRENOM_USER`, `DATEN_USER`, `CIN_USER`, `EMAIL_USER`, `PASSWORD_USER`, `ADRESSE_USER`, `TELE_USER`, `SEXE_USER`, `TYPE_EN`) VALUES
+	(1, 1, 'gghhh', 'aouari', '2014-03-18', '456^mlkjh', 'chkry@gmail.com', 'a123', '279 lmkjhg', 636068245, 'Sexe', 'TP'),
+	(2, NULL, 'rssaim', 'sanaa', '2023-07-13', 'H123456', '11e@gmail.com', '11e', 'Dr El marir toubet', 650381845, 'femme', 'prof'),
+	(4, NULL, 'Abderrahmane ', 'chekry', '2015-05-04', 'H123456', '11e@gmail.com', '11e', '210 P2005, safi 46000', 650381845, 'Sexe', 'prof'),
+	(5, NULL, 'maarof', 'nora', '2023-07-04', 'H123456', '11e@gmail.com', '11e', '4GGG', 650381845, 'Sexe', 'prof');
+
+-- Dumping structure for table pfe_absences.etudiant
+CREATE TABLE IF NOT EXISTS `etudiant` (
+  `Id_User` int NOT NULL AUTO_INCREMENT,
+  `ID_FILIERE_` int DEFAULT NULL,
+  `NOM_USER` text,
+  `PRENOM_USER` text,
+  `DATEN_USER` date DEFAULT NULL,
+  `CIN_USER` text,
+  `EMAIL_USER` text,
+  `PASSWORD_USER` text,
+  `ADRESSE_USER` text,
+  `TELE_USER` decimal(10,0) DEFAULT NULL,
+  `SEXE_USER` text,
+  `CNE_ET` text,
+  `ADRESS_PARENTIELLE_ET` text,
+  `NIVEAU_ET` text,
+  `AVERTISEMENT_ET` text,
+  `NB_absence` int DEFAULT NULL,
+  PRIMARY KEY (`Id_User`),
+  KEY `FK_IDFILI` (`ID_FILIERE_`),
+  CONSTRAINT `FK_IDFILI` FOREIGN KEY (`ID_FILIERE_`) REFERENCES `filiere` (`ID_FILIERE_`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.etudiant: ~10 rows (approximately)
+DELETE FROM `etudiant`;
+INSERT INTO `etudiant` (`Id_User`, `ID_FILIERE_`, `NOM_USER`, `PRENOM_USER`, `DATEN_USER`, `CIN_USER`, `EMAIL_USER`, `PASSWORD_USER`, `ADRESSE_USER`, `TELE_USER`, `SEXE_USER`, `CNE_ET`, `ADRESS_PARENTIELLE_ET`, `NIVEAU_ET`, `AVERTISEMENT_ET`, `NB_absence`) VALUES
+	(1, 1, 'aminaaaaaaaaaaaaaaaayyy', 'aouariii', '2015-03-20', '45kjh', 'aminaaaaaaaa@gmail.com', 'aamina', '1236mlkjh', 636068245, 'femme', 'po854', '35 lkjhgf', '2 Annee', 'Discipline', 20),
+	(2, 1, 'sanaa', 'raissam', '2003-01-26', 'ùpmolikuyt685', 'khav@gmail.com', 'aaaa', '124 poiuyt', 617134875, 'femme', 'k1235487', '145 piuiyt', '2eme', 'zero', NULL),
+	(4, 1, 'AAROUF', 'Fatimaezzahra', '0000-00-00', 'K100071590', 'fatimaezzahraaarouf@gmail.com', 'PASSWORD_VALUE', 'ADRESSE_VALUE', 690767007, 'SEXE_VALUE', 'K100071590', 'ADRESS_PARENTIELLE_VALUE', '2eme', 'discipline', NULL),
+	(5, 1, 'AASLI', 'Ahmed', '0000-00-00', 'D132419134', 'ahmedaasli07@gmail.com', 'PASSWORD_VALUE', 'ADRESSE_VALUE', 770460975, 'SEXE_VALUE', 'D132419134', 'ADRESS_PARENTIELLE_VALUE', 'NIVEAU_VALUE', 'AVERTISEMENT', NULL),
+	(6, 1, 'ABDOU', 'Imane', '0000-00-00', 'K13005670', 'abdouimane2020@gmail.com', 'PASSWORD_VALUE', 'ADRESSE_VALUE', 607535895, 'SEXE_VALUE', 'K13005670', 'ADRESS_PARENTIELLE_VALUE', 'NIVEAU_VALUE', 'AVERTISEMENT_VALUE', NULL),
+	(7, 1, 'AFRIADE', 'Wafaa', '0000-00-00', 'R130508691', 'wafaaafriade03@gmail.com', 'PASSWORD_VALUE', 'ADRESSE_VALUE', 641546497, 'SEXE_VALUE', 'R130508691', 'ADRESS_PARENTIELLE_VALUE', 'NIVEAU_VALUE', 'AVERTISEMENT_VALUE', NULL),
+	(8, 1, 'AITHEMAD', 'Wissal', '0000-00-00', 'K130192040', 'wissal.aithemad@gmail.com', 'PASSWORD_VALUE', 'ADRESSE_VALUE', 657212829, 'SEXE_VALUE', 'K130192040', 'ADRESS_PARENTIELLE_VALUE', 'NIVEAU_VALUE', 'AVERTISEMENT_VALUE', NULL),
+	(9, 1, 'AKRAM', 'Nadia', '0000-00-00', 'K141047218', 'akram.nadia.2016@gmail.com', 'PASSWORD_VALUE', 'ADRESSE_VALUE', 671790967, 'SEXE_VALUE', 'K141047218', 'ADRESS_PARENTIELLE_VALUE', 'NIVEAU_VALUE', 'AVERTISEMENT_VALUE', NULL),
+	(10, 1, 'AKRATE', 'Khadija', '0000-00-00', 'K100032324', 'khadijaakrate123@gmail.com', 'PASSWORD_VALUE', 'ADRESSE_VALUE', 772114749, 'SEXE_VALUE', 'K100032324', 'ADRESS_PARENTIELLE_VALUE', 'NIVEAU_VALUE', 'AVERTISEMENT_VALUE', NULL),
+	(13, 1, 'rssaim', 'sanaa', '2023-07-18', 'kj8', '11e@gmail.com', '11e', 'Dr El marir toubet', 650381845, 'femme', 'H23', 'ddd', '2 Annee', NULL, 0);
+
+-- Dumping structure for table pfe_absences.filiere
+CREATE TABLE IF NOT EXISTS `filiere` (
+  `ID_FILIERE_` int NOT NULL AUTO_INCREMENT,
+  `ID_DEPARTEMENT` int NOT NULL,
+  `NOM_FILIERE_` text,
+  PRIMARY KEY (`ID_FILIERE_`),
+  KEY `FK_COMPRENDRE` (`ID_DEPARTEMENT`),
+  CONSTRAINT `FK_COMPRENDRE` FOREIGN KEY (`ID_DEPARTEMENT`) REFERENCES `departement` (`ID_DEPARTEMENT`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.filiere: ~0 rows (approximately)
+DELETE FROM `filiere`;
+INSERT INTO `filiere` (`ID_FILIERE_`, `ID_DEPARTEMENT`, `NOM_FILIERE_`) VALUES
+	(1, 1, 'info');
+
+-- Dumping structure for table pfe_absences.groupe
+CREATE TABLE IF NOT EXISTS `groupe` (
+  `ID_GROUPE` int NOT NULL AUTO_INCREMENT,
+  `ID_FILIERE_` int NOT NULL,
+  `NOM_GROUPE` text,
+  `TYPE_GROUPE` text,
+  `ID_SEMESTRE` int DEFAULT NULL,
+  PRIMARY KEY (`ID_GROUPE`),
+  KEY `FK_APPARTENIR` (`ID_FILIERE_`),
+  KEY `FK_GROUPE_SEMESTRE` (`ID_SEMESTRE`),
+  CONSTRAINT `FK_APPARTENIR` FOREIGN KEY (`ID_FILIERE_`) REFERENCES `filiere` (`ID_FILIERE_`),
+  CONSTRAINT `FK_GROUPE_SEMESTRE` FOREIGN KEY (`ID_SEMESTRE`) REFERENCES `semestre` (`ID_SEMESTRE`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.groupe: ~0 rows (approximately)
+DELETE FROM `groupe`;
+INSERT INTO `groupe` (`ID_GROUPE`, `ID_FILIERE_`, `NOM_GROUPE`, `TYPE_GROUPE`, `ID_SEMESTRE`) VALUES
+	(1, 1, 'section 1', 'TP', 1255);
+
+-- Dumping structure for table pfe_absences.module
+CREATE TABLE IF NOT EXISTS `module` (
+  `ID_MODULE` int NOT NULL AUTO_INCREMENT,
+  `ID_FILIERE_` int NOT NULL,
+  `ID_SEMESTRE` int NOT NULL,
+  `NOM_MODULE` text,
+  PRIMARY KEY (`ID_MODULE`),
+  KEY `FK_CONTENIR` (`ID_FILIERE_`),
+  KEY `FK_TROUVER` (`ID_SEMESTRE`),
+  CONSTRAINT `FK_CONTENIR` FOREIGN KEY (`ID_FILIERE_`) REFERENCES `filiere` (`ID_FILIERE_`),
+  CONSTRAINT `FK_TROUVER` FOREIGN KEY (`ID_SEMESTRE`) REFERENCES `semestre` (`ID_SEMESTRE`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.module: ~0 rows (approximately)
+DELETE FROM `module`;
+INSERT INTO `module` (`ID_MODULE`, `ID_FILIERE_`, `ID_SEMESTRE`, `NOM_MODULE`) VALUES
+	(1, 1, 1254, 'c++ & java');
+
+-- Dumping structure for table pfe_absences.role
+CREATE TABLE IF NOT EXISTS `role` (
+  `ID_ROLE` int NOT NULL AUTO_INCREMENT,
+  `ROLE` text,
+  PRIMARY KEY (`ID_ROLE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.role: ~0 rows (approximately)
+DELETE FROM `role`;
+
+-- Dumping structure for table pfe_absences.seance
+CREATE TABLE IF NOT EXISTS `seance` (
+  `ID_SEANCE` int NOT NULL AUTO_INCREMENT,
+  `ID_ELEMENT` int DEFAULT NULL,
+  `Id_Groupe` int DEFAULT NULL,
+  `Id_User` int DEFAULT NULL,
+  `NUM_SALLE` int DEFAULT NULL,
+  `date_D` datetime DEFAULT NULL,
+  `date_F` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID_SEANCE`),
+  KEY `FK_ASSISTER` (`Id_Groupe`),
+  KEY `FK_ENSEIGNER` (`Id_User`),
+  KEY `FK_INCLURE` (`ID_ELEMENT`),
+  CONSTRAINT `FK_ASSISTER` FOREIGN KEY (`Id_Groupe`) REFERENCES `groupe` (`ID_GROUPE`),
+  CONSTRAINT `FK_ENSEIGNER` FOREIGN KEY (`Id_User`) REFERENCES `enseignant` (`Id_User`),
+  CONSTRAINT `FK_INCLURE` FOREIGN KEY (`ID_ELEMENT`) REFERENCES `element` (`ID_ELEMENT`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.seance: ~12 rows (approximately)
+DELETE FROM `seance`;
+INSERT INTO `seance` (`ID_SEANCE`, `ID_ELEMENT`, `Id_Groupe`, `Id_User`, `NUM_SALLE`, `date_D`, `date_F`) VALUES
+	(2, 1, 1, 2, 21, '2023-07-14 20:40:00', '2023-07-13 20:40:00'),
+	(4, 1, 1, 1, 31, '2023-06-07 13:01:25', '2023-06-07 15:01:25'),
+	(5, 1, 1, 1, 31, '2023-06-08 06:15:43', '2023-06-08 13:15:43'),
+	(6, 1, 1, 1, 31, '2023-06-30 20:56:03', '2023-06-30 22:56:03'),
+	(8, 1, 1, 2, 11, '2023-07-01 22:44:11', '2023-07-01 22:44:13'),
+	(9, 1, 1, 4, 33, '2023-07-01 22:51:24', '2023-07-01 22:51:26'),
+	(10, 1, 1, 2, 44, '2023-06-28 00:53:00', '2023-07-12 20:53:00'),
+	(11, 1, 1, 1, 124, '2023-07-11 01:36:00', '2023-07-15 02:36:00'),
+	(12, 1, 1, 1, 124, '2023-07-11 01:36:00', '2023-07-15 02:36:00'),
+	(15, 1, 1, 4, 23, '2023-07-06 21:09:00', '2023-07-20 21:09:00'),
+	(16, 1, NULL, 1, 67, '2023-07-14 21:04:00', '2023-07-28 21:03:00'),
+	(17, 1, 1, 1, 80, '2023-07-07 21:08:00', '2023-07-22 21:10:00');
+
+-- Dumping structure for table pfe_absences.semestre
+CREATE TABLE IF NOT EXISTS `semestre` (
+  `ID_SEMESTRE` int NOT NULL AUTO_INCREMENT,
+  `Id_annee` int NOT NULL,
+  `NUM_SEMESTRE` text,
+  `DATED_SEMESTRE` date DEFAULT NULL,
+  `DATEF_SEMESTRE` date DEFAULT NULL,
+  PRIMARY KEY (`ID_SEMESTRE`)
+) ENGINE=InnoDB AUTO_INCREMENT=1256 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.semestre: ~1 rows (approximately)
+DELETE FROM `semestre`;
+INSERT INTO `semestre` (`ID_SEMESTRE`, `Id_annee`, `NUM_SEMESTRE`, `DATED_SEMESTRE`, `DATEF_SEMESTRE`) VALUES
+	(1254, 1, 'S1', '2023-01-01', '2023-03-24'),
+	(1255, 2, 'S2', '2023-04-02', '2023-07-30');
+
+-- Dumping structure for table pfe_absences.travailler
+CREATE TABLE IF NOT EXISTS `travailler` (
+  `Id_User` int NOT NULL,
+  `ID_DEPARTEMENT` int NOT NULL,
+  PRIMARY KEY (`Id_User`,`ID_DEPARTEMENT`),
+  KEY `FK_TRAVAILLER2` (`ID_DEPARTEMENT`),
+  CONSTRAINT `FK_TRAVAILLER` FOREIGN KEY (`Id_User`) REFERENCES `enseignant` (`Id_User`),
+  CONSTRAINT `FK_TRAVAILLER2` FOREIGN KEY (`ID_DEPARTEMENT`) REFERENCES `departement` (`ID_DEPARTEMENT`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.travailler: ~2 rows (approximately)
+DELETE FROM `travailler`;
+INSERT INTO `travailler` (`Id_User`, `ID_DEPARTEMENT`) VALUES
+	(2, 1),
+	(4, 1);
+
+-- Dumping structure for table pfe_absences.utilisateur
+CREATE TABLE IF NOT EXISTS `utilisateur` (
+  `Id_User` int NOT NULL AUTO_INCREMENT,
+  `NOM_USER` text,
+  `PRENOM_USER` text,
+  `DATEN_USER` date DEFAULT NULL,
+  `CIN_USER` text,
+  `EMAIL_USER` text,
+  `PASSWORD_USER` text,
+  `ADRESSE_USER` text,
+  `TELE_USER` decimal(10,0) DEFAULT NULL,
+  `SEXE_USER` text,
+  PRIMARY KEY (`Id_User`),
+  CONSTRAINT `FK_GERER` FOREIGN KEY (`Id_User`) REFERENCES `administrateur` (`Id_User`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table pfe_absences.utilisateur: ~11 rows (approximately)
+DELETE FROM `utilisateur`;
+INSERT INTO `utilisateur` (`Id_User`, `NOM_USER`, `PRENOM_USER`, `DATEN_USER`, `CIN_USER`, `EMAIL_USER`, `PASSWORD_USER`, `ADRESSE_USER`, `TELE_USER`, `SEXE_USER`) VALUES
+	(1, 'amina', 'aouari', '2015-03-20', 'poijhnz563', 'amina@gmail.com', 'aamina', '276 aùpmlkjh', 617134875, 'femme'),
+	(2, 'mkmjlk', 'mùpoiujyh', '2003-01-26', 'ùpmolikuyt685', 'khav@gmail.com', 'aaaa', '124 poiuyt', 617134875, 'femme'),
+	(3, 'idar', 'noha', '2010-04-01', 'hh65432189', 'noha@gmail.com', '5678', 'safi', 654321874, 'femme'),
+	(4, 'BENHIMA', 'Mohamed-amine', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]'),
+	(5, 'AAROUF', 'Fatima-ezzahra', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]'),
+	(6, 'AASLI', 'Ahmed', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]'),
+	(7, 'ABDOU', 'Imane', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]'),
+	(8, 'AFRIADE', 'Wafaa', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]'),
+	(9, 'AIT-HEMAD', 'Wissal', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]'),
+	(10, 'AKRAM', 'Nadia', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]'),
+	(11, 'AKRATE', 'Khadija', '0000-00-00', '[value-5]', '[value-6]', '[value-7]', '[value-8]', 0, '[value-10]');
+
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

@@ -8,7 +8,7 @@ if(isset($_POST['submit'])){
     $sql2="UPDATE enseignant  SET  
     NOM_USER = ?,PRENOM_USER = ?,DATEN_USER = ?
     ,CIN_USER = ?,EMAIL_USER = ?,PASSWORD_USER = ?,ADRESSE_USER = ?
-    ,TELE_USER = ?,SEXE_USER = ?,TYPE_EN = ? WHERE ID_ADMIN = ?";
+    ,TELE_USER = ?,SEXE_USER = ?,TYPE_EN = ? WHERE Id_User = ?";
     $rs_modif = $db->prepare($sql2);
     $NOM_USER = $_POST['NOM_USER'];
     $PRENOM_USER = $_POST['PRENOM_USER'];
@@ -20,7 +20,7 @@ if(isset($_POST['submit'])){
     $ADRESSE_USER = $_POST['ADRESSE_USER'];
     $TELE_USER = $_POST['TELE_USER'];
     $TYPE_EN = $_POST['TYPE_EN'];
-    $var_id    = $_POST['ID_ADMIN'];
+    $var_id    = $_POST['Id_User'];
     
     $rs_modif->bindValue(1,$NOM_USER,PDO::PARAM_STR);
     $rs_modif->bindValue(2,$PRENOM_USER,PDO::PARAM_STR);
@@ -42,7 +42,7 @@ if(isset($_POST['submit'])){
 
 if(isset($_GET['id'])){
     
-    $sql ="SELECT * FROM enseignant WHERE ID_ADMIN=? ";
+    $sql ="SELECT * FROM enseignant WHERE Id_User=? ";
     $rs_insert = $db->prepare($sql);
     $var_id=$_GET['id'];
     $rs_insert->bindValue(1,$var_id,PDO::PARAM_INT);
@@ -135,7 +135,7 @@ if(isset($_GET['id'])){
             
             
                 <div class="text-center">
-                <input type="hidden" name="ID_ADMIN" value="<?= $var_id; ?>">
+                <input type="hidden" name="Id_User" value="<?= $var_id; ?>">
                   <button type="submit" class="btn btn-primary"name="submit"value="modifier">Modifier</button>
                   <button type="reset" class="btn btn-secondary">Reset</button>
                 </div>

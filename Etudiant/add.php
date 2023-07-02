@@ -1,14 +1,6 @@
 
 
-<?php
-
-try{
-    $db = new PDO('mysql:host=127.0.0.1;dbname=pfe_absences;charset=utf8','root','7a6EQO');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-}catch(Exception $e){
-    die('msssssg :: '.$e->getMessage());
-} 
-?>
+<?php include '../include/connexion.php'; ?>
 <?php
  $message='';
 if(isset($_POST['submit'])){
@@ -25,12 +17,12 @@ if(isset($_POST['submit'])){
     $TELE_USER = $_POST['TELE_USER'];
     $NIVEAU_ET = $_POST['NIVEAU_ET'];
     $ID_FILIERE_ = $_POST['ID_FILIERE_'];
-    $ID_ADMIN = $_POST['ID_ADMIN'];
+  
     $NB_absence=0;
-    $req = $db->prepare("insert into etudiant(ID_ADMIN,ID_FILIERE_,NOM_USER,PRENOM_USER,DATEN_USER,CIN_USER,EMAIL_USER,PASSWORD_USER,ADRESSE_USER,TELE_USER,SEXE_USER,CNE_ET,ADRESS_PARENTIELLE_ET,NIVEAU_ET,NB_absence) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-    $req->execute([$ID_ADMIN,$ID_FILIERE_,$nom_user,$prenom_user,$DATEN_USER,$CIN_USER,$EMAIL_USER,$PASSWORD_USER,$ADRESSE_USER,$TELE_USER,$SEXE_USER,$CNE_ET,$ADRESS_PARENTIELLE_ET,$NIVEAU_ET,$NB_absence]);
-   
 
+    $req = $db->prepare("insert into etudiant(ID_FILIERE_,NOM_USER,PRENOM_USER,DATEN_USER,CIN_USER,EMAIL_USER,PASSWORD_USER,ADRESSE_USER,TELE_USER,SEXE_USER,CNE_ET,ADRESS_PARENTIELLE_ET,NIVEAU_ET,NB_absence) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    $req->execute([$ID_FILIERE_,$nom_user,$prenom_user,$DATEN_USER,$CIN_USER,$EMAIL_USER,$PASSWORD_USER,$ADRESSE_USER,$TELE_USER,$SEXE_USER,$CNE_ET,$ADRESS_PARENTIELLE_ET,$NIVEAU_ET,$NB_absence]);
+   
     header('location: ../Etudiant/list.php?msg=added');
     exit;
     

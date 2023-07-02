@@ -16,7 +16,7 @@ function guidv4($data = null) {
     return vsprintf('%s%s%s%s%s%s%s%s%s%s', str_split(bin2hex($data), 5));
 }
 
-$sql = 'SELECT seance.HEURED_SEANCE, seance.HEUREF_SEANCE, etudiant.NB_absence, etudiant.AVERTISEMENT_ET FROM seance JOIN absence ON seance.ID_SEANCE = absence.ID_SEANCE JOIN etudiant ON absence.ID_ADMIN = etudiant.ID_ADMIN WHERE AVERTISEMENT_ET = "Avertissement" OR AVERTISEMENT_ET = "Discipline"';
+$sql = 'SELECT seance.date_D, seance.date_F, etudiant.NB_absence, etudiant.AVERTISEMENT_ET FROM seance JOIN absence ON seance.ID_SEANCE = absence.ID_SEANCE JOIN etudiant ON absence.Id_User = etudiant.Id_User WHERE AVERTISEMENT_ET = "Avertissement" OR AVERTISEMENT_ET = "Discipline"';
 $rs_insert = $db->prepare($sql);
 $rs_insert->execute();
 $seance = $rs_insert->fetchAll();
@@ -118,11 +118,11 @@ try {
         $avertissement = 'Avertissement';
     }
 
-    $id_etudiant = $etudiant['ID_ADMIN'];
-    $updateSql = "UPDATE etudiant SET AVERTISEMENT_ET = :AVERTISEMENT_ET WHERE ID_ADMIN = :ID_ADMIN";
+    $id_etudiant = $etudiant['Id_User'];
+    $updateSql = "UPDATE etudiant SET AVERTISEMENT_ET = :AVERTISEMENT_ET WHERE Id_User = :Id_User";
     $updateStmt = $db->prepare($updateSql);
     $updateStmt->bindParam(':AVERTISEMENT_ET', $avertissement);
-    $updateStmt->bindParam(':ID_ADMIN', $id_etudiant);
+    $updateStmt->bindParam(':Id_User', $id_etudiant);
     $updateStmt->execute();
 }
 

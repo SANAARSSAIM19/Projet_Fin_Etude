@@ -1,12 +1,4 @@
-<?php
-
-try{
-    $db = new PDO('mysql:host=127.0.0.1;dbname=pfe_absences;charset=utf8','root','7a6EQO');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-}catch(Exception $e){
-    die('msssssg :: '.$e->getMessage());
-} 
-?>
+<?php include '../include/connexion.php'; ?>
 <?php
  $message='';
 if(isset($_POST['submit'])){
@@ -20,13 +12,14 @@ if(isset($_POST['submit'])){
     $TELE_USER = $_POST['TELE_USER'];
     $SEXE_USER = $_POST['SEXE_USER'];
     $TYPE_EN = $_POST['TYPE_EN'];
-    $ID_ADMIN = $_POST['ID_ADMIN'];
+   
    
     if(empty($DATEN_USER) || !strtotime($DATEN_USER)){
       $message = "La date de naissance est invalide";
   } else {
-    $req = $db->prepare("insert into enseignant(ID_ADMIN,NOM_USER,PRENOM_USER,DATEN_USER,CIN_USER,EMAIL_USER,PASSWORD_USER,ADRESSE_USER,TELE_USER,SEXE_USER,TYPE_EN) values(?,?,?,?,?,?,?,?,?,?,?)");
-    $req->execute([$ID_ADMIN,$NOM_USER,$PRENOM_USER,$DATEN_USER,$CIN_USER,$EMAIL_USER,$PASSWORD_USER,$ADRESSE_USER,$TELE_USER,$SEXE_USER,$TYPE_EN]);
+    $req = $db->prepare("insert into enseignant(NOM_USER,PRENOM_USER,DATEN_USER,CIN_USER,EMAIL_USER,PASSWORD_USER,ADRESSE_USER,TELE_USER,SEXE_USER,TYPE_EN) values(?,?,?,?,?,?,?,?,?,?)");
+    $req->execute([$NOM_USER,$PRENOM_USER,$DATEN_USER,$CIN_USER,$EMAIL_USER,$PASSWORD_USER,$ADRESSE_USER,$TELE_USER,$SEXE_USER,$TYPE_EN]);
+   
     header('location: ../Enseignement/list.php?msg=added');
 exit;
   }}
